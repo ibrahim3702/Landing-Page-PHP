@@ -1,6 +1,5 @@
 <?php
-// Index: Core structure (Hero, Features, Footer)
-// NOTE: Later epics (Styling, Contact Form, Analytics) will extend this.
+// Index updated for Epic 2: UI Styling & Branding
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,9 +8,14 @@
   <title>FasterSolutions – Launch Faster. Impress More.</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="description" content="Marketing landing page for FasterSolutions product.">
+  <!-- Font (Epic 2) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <!-- Fonts added in Epic 2 (Styling). For now rely on system-ui. -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Inter font: variable weights -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Styles -->
   <link rel="stylesheet" href="assets/css/reset.css" />
+  <link rel="stylesheet" href="assets/css/branding.css" />
   <link rel="stylesheet" href="assets/css/base.css" />
 </head>
 <body>
@@ -32,7 +36,6 @@
       </button>
       <ul id="navMenu" class="nav-links" data-state="closed">
         <li><a href="#features">Features</a></li>
-        <!-- Contact link will scroll to form (added in Epic 3) -->
         <li><a href="#footer">Contact</a></li>
       </ul>
     </div>
@@ -44,11 +47,9 @@
       <div class="hero__content">
         <h1 class="hero__title">Launch Faster. Impress More.</h1>
         <p class="hero__subtitle">A focused landing experience built for clarity and conversion.</p>
-        <a href="#features" class="hero__cta" role="button">Explore Features</a>
+        <a href="#features" class="btn btn-primary hero__cta" role="button">Explore Features</a>
       </div>
-      <div class="hero__bg" aria-hidden="true">
-        <!-- Background handled in CSS; image placeholder loaded progressively later -->
-      </div>
+      <div class="hero__bg" aria-hidden="true"></div>
     </header>
 
     <!-- Features Section -->
@@ -57,31 +58,33 @@
         <h2 id="features-heading">Why Choose Us</h2>
         <p class="section-lead">Three pillars driving better launches and user satisfaction.</p>
         <div class="feature-grid">
-          <article class="feature-card">
-            <div class="feature-card__icon">
-              <img src="assets/img/icon-performance.svg" alt="" role="presentation">
+          <article class="feature-card" aria-labelledby="feat-perf-title">
+            <div class="feature-card__icon" aria-hidden="true">
+              <?php include __DIR__ . '/assets/img/icon-performance.svg'; ?>
             </div>
-            <h3 class="feature-card__title">Performance</h3>
+            <h3 id="feat-perf-title" class="feature-card__title">Performance</h3>
             <p class="feature-card__body">Lean markup and optimized assets deliver fast initial render.</p>
           </article>
-          <article class="feature-card">
-            <div class="feature-card__icon">
-              <img src="assets/img/icon-responsive.svg" alt="" role="presentation">
-            </div>
-            <h3 class="feature-card__title">Responsive Design</h3>
-            <p class="feature-card__body">Adaptive layout ensures clarity across mobile, tablet, desktop.</p>
-          </article>
-          <article class="feature-card">
-            <div class="feature-card__icon">
-              <img src="assets/img/icon-analytics.svg" alt="" role="presentation">
-            </div>
-            <h3 class="feature-card__title">Analytics Ready</h3>
-            <p class="feature-card__body">Structured head section ready for analytics integration.</p>
-          </article>
+
+            <article class="feature-card" aria-labelledby="feat-resp-title">
+              <div class="feature-card__icon" aria-hidden="true">
+                <?php include __DIR__ . '/assets/img/icon-responsive.svg'; ?>
+              </div>
+              <h3 id="feat-resp-title" class="feature-card__title">Responsive Design</h3>
+              <p class="feature-card__body">Adaptive layout ensures clarity across mobile, tablet, desktop.</p>
+            </article>
+
+            <article class="feature-card" aria-labelledby="feat-anal-title">
+              <div class="feature-card__icon" aria-hidden="true">
+                <?php include __DIR__ . '/assets/img/icon-analytics.svg'; ?>
+              </div>
+              <h3 id="feat-anal-title" class="feature-card__title">Analytics Ready</h3>
+              <p class="feature-card__body">Structured head section ready for analytics integration.</p>
+            </article>
         </div>
       </div>
     </section>
-    <!-- Contact section placeholder (Epic 3) -->
+    <!-- Contact section still to come in Epic 3 -->
   </main>
 
   <footer id="footer" class="site-footer" role="contentinfo">
