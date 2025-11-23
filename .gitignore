@@ -1,0 +1,2 @@
+# Ignore message log produced by contact form
+src/messages.log
