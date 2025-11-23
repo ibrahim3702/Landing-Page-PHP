@@ -1,5 +1,8 @@
 <?php
-// Rebranded index for NebulaLaunch: Adds new feature set + pricing section (Basic, Pro, Enterprise).
+// Epic 5: Analytics & Performance
+// - Adds GA4 snippet
+// - Adds pricing CTA tracking hooks (data-plan)
+// - Keeps NebulaLaunch rebrand and prior sections intact
 session_start();
 $old = $_SESSION['form_values'] ?? [];
 $errs = $_SESSION['form_errors'] ?? [];
@@ -11,14 +14,34 @@ $errs = $_SESSION['form_errors'] ?? [];
   <title>NebulaLaunch – Accelerate, Optimize, Scale</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="description" content="NebulaLaunch: AI-driven optimization, lightning edge delivery, privacy-first analytics.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Fonts: Inter + Plus Jakarta Sans for headings -->
+  <meta name="theme-color" content="#5d2ee6" />
+
+  <!-- Performance: preconnect/dns-prefetch for fonts & analytics -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="dns-prefetch" href="//www.googletagmanager.com">
+  <link rel="preconnect" href="https://www.googletagmanager.com" />
+  <link rel="dns-prefetch" href="//www.google-analytics.com">
+  <link rel="preconnect" href="https://www.google-analytics.com" />
+
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
   <link rel="stylesheet" href="assets/css/reset.css" />
   <link rel="stylesheet" href="assets/css/branding.css" />
   <link rel="stylesheet" href="assets/css/base.css" />
   <link rel="stylesheet" href="assets/css/form.css" />
+
+  <!-- Google Analytics 4 (replace G-XXXXXXX with your measurement ID) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    // Basic page view
+    gtag('config', 'G-XXXXXXX', { send_page_view: true, transport_type: 'beacon' });
+  </script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to main content</a>
@@ -108,10 +131,10 @@ $errs = $_SESSION['form_errors'] ?? [];
               <li>Email support</li>
               <li>Community access</li>
             </ul>
-            <a href="#contact" class="btn btn-outline btn-pill pricing-cta" aria-label="Select Basic plan">Get Started</a>
+            <a href="#contact" class="btn btn-outline btn-pill pricing-cta" data-plan="Basic" aria-label="Select Basic plan">Get Started</a>
           </div>
 
-          <!-- Pro (Highlighted) -->
+          <!-- Pro -->
           <div class="pricing-card pricing-card--featured" aria-labelledby="plan-pro-title">
             <div class="pricing-card__badge" aria-hidden="true">Most Popular</div>
             <div class="pricing-card__header">
@@ -125,30 +148,30 @@ $errs = $_SESSION['form_errors'] ?? [];
               <li>Priority support</li>
               <li>A/B testing toolkit</li>
             </ul>
-            <a href="#contact" class="btn btn-accent btn-pill pricing-cta" aria-label="Select Pro plan">Start Pro</a>
+            <a href="#contact" class="btn btn-accent btn-pill pricing-cta" data-plan="Pro" aria-label="Select Pro plan">Start Pro</a>
           </div>
 
           <!-- Enterprise -->
-            <div class="pricing-card" aria-labelledby="plan-enterprise-title">
-              <div class="pricing-card__header">
-                <h3 id="plan-enterprise-title" class="pricing-card__title">Enterprise</h3>
-                <p class="pricing-card__subtitle">Custom scale</p>
-              </div>
-              <p class="pricing-card__price"><span class="pricing-card__amount">Custom</span></p>
-              <ul class="pricing-features">
-                <li>Unlimited experiences</li>
-                <li>Dedicated success engineer</li>
-                <li>Edge delivery SLA</li>
-                <li>Privacy compliance suite</li>
-              </ul>
-              <a href="#contact" class="btn btn-outline btn-pill pricing-cta" aria-label="Contact for Enterprise plan">Contact Sales</a>
+          <div class="pricing-card" aria-labelledby="plan-enterprise-title">
+            <div class="pricing-card__header">
+              <h3 id="plan-enterprise-title" class="pricing-card__title">Enterprise</h3>
+              <p class="pricing-card__subtitle">Custom scale</p>
             </div>
+            <p class="pricing-card__price"><span class="pricing-card__amount">Custom</span></p>
+            <ul class="pricing-features">
+              <li>Unlimited experiences</li>
+              <li>Dedicated success engineer</li>
+              <li>Edge delivery SLA</li>
+              <li>Privacy compliance suite</li>
+            </ul>
+            <a href="#contact" class="btn btn-outline btn-pill pricing-cta" data-plan="Enterprise" aria-label="Contact for Enterprise plan">Contact Sales</a>
+          </div>
         </div>
         <p class="pricing-note">All plans include secure data handling and accessibility-first templates.</p>
       </div>
     </section>
 
-    <!-- Contact (from Epic 3 previous addition) -->
+    <!-- Contact -->
     <section id="contact" class="contact-section" aria-labelledby="contact-heading">
       <div class="section-inner">
         <h2 id="contact-heading">Get in Touch</h2>
@@ -217,7 +240,11 @@ $errs = $_SESSION['form_errors'] ?? [];
     </div>
   </footer>
 
-  <script src="assets/js/main.js"></script>
-  <script src="assets/js/validation.js"></script>
+  <!-- Defer site scripts -->
+  <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/validation.js" defer></script>
+
+  <!-- Epic 5: Analytics & Web Vitals -->
+  <script type="module" src="assets/js/analytics.js"></script>
 </body>
 </html>

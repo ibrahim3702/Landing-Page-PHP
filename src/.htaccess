@@ -1,0 +1,61 @@
+# Epic 5: Performance headers, caching, compression (Apache)
+# Place this file in the web root (src/) of your hosting.
+
+# Security tweaks
+Header always set X-Content-Type-Options "nosniff"
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+Header always set X-Frame-Options "SAMEORIGIN"
+
+# Enable compression (if modules available)
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/plain text/html text/xml text/css application/javascript application/json image/svg+xml
+</IfModule>
+
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/plain text/html text/xml text/css application/javascript application/json image/svg+xml
+  BrotliCompressionQuality 5
+</IfModule>
+
+# Caching for static assets
+<IfModule mod_expires.c>
+  ExpiresActive On
+
+  # Images
+  ExpiresByType image/jpeg "access plus 6 months"
+  ExpiresByType image/jpg  "access plus 6 months"
+  ExpiresByType image/png  "access plus 6 months"
+  ExpiresByType image/gif  "access plus 6 months"
+  ExpiresByType image/webp "access plus 6 months"
+  ExpiresByType image/svg+xml "access plus 6 months"
+
+  # Fonts
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType font/woff  "access plus 1 year"
+
+  # CSS/JS
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+
+  # Default
+  ExpiresDefault "access plus 1 month"
+</IfModule>
+
+# Far-future caching for versioned assets (add ?v= or hashed filenames if you implement)
+<IfModule mod_headers.c>
+  <FilesMatch "\.(css|js|woff2|woff|svg)$">
+    Header set Cache-Control "public, max-age=31536000"
+  </FilesMatch>
+  <FilesMatch "\.(png|jpg|jpeg|gif|webp)$">
+    Header set Cache-Control "public, max-age=15552000"
+  </FilesMatch>
+  <FilesMatch "\.(html|php)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+# Serve SVG with correct MIME
+AddType image/svg+xml .svg .svgz
+AddEncoding gzip .svgz
+
+# Gzip already-compressed assets (avoid double compression)
+SetEnvIfNoCase Request_URI "\.(?:gif|jpe?g|png|webp|mp4|mov)$" no-gzip dont-vary
