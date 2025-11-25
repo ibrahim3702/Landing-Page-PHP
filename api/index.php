@@ -155,18 +155,23 @@ $errs = $_SESSION['form_errors'] ?? [];
         <p class="section-lead">We respond within 24 hours. All fields are required.</p>
 
         <?php
+          // Stateless Success/Error Handling (Works on Vercel)
           if (isset($_GET['success'])) {
             echo '<div class="alert alert-success" role="status">Message sent successfully!</div>';
             echo '<script>setTimeout(function(){ window.history.replaceState({}, document.title, window.location.pathname + "#contact"); }, 3000);</script>';
           } elseif (isset($_GET['error'])) {
-            echo '<div class="alert alert-error" role="alert">Please correct the highlighted fields.</div>';
-          } elseif (isset($_GET['server'])) {
-            echo '<div class="alert alert-error" role="alert">Server error. Try again later.</div>';
+            $errType = $_GET['error'];
+            if ($errType === 'missing') echo '<div class="alert alert-error" role="alert">Please fill in all required fields.</div>';
+            elseif ($errType === 'email') echo '<div class="alert alert-error" role="alert">Please provide a valid email address.</div>';
+            elseif ($errType === 'short') echo '<div class="alert alert-error" role="alert">Message is too short.</div>';
+            else echo '<div class="alert alert-error" role="alert">Something went wrong. Please try again.</div>';
           }
         ?>
 
-        <form id="contactForm" class="form-card" method="POST" action="contact.php" novalidate>
-          <input type="hidden" name="csrf_token" value="<?php echo hash('sha256', session_id() . 'SECRET_SALT'); ?>">
+        <form id="contactForm" class="form-card" method="POST" action="/contact" novalidate>
+          
+          <input type="hidden" name="csrf_token" value="<?php echo hash('sha256', 'static_salt_for_vercel'); ?>">
+          
           <div class="hp-field">
             <label>Leave this field empty</label>
             <input type="text" name="website" tabindex="-1" autocomplete="off">
@@ -174,22 +179,17 @@ $errs = $_SESSION['form_errors'] ?? [];
 
           <div class="form-group">
             <label for="name">Name *</label>
-            <input id="name" name="name" type="text" required minlength="2" maxlength="70" autocomplete="name"
-                   value="<?php echo $old['name'] ?? ''; ?>">
-            <p class="field-error" data-error-for="name"><?php echo $errs['name'] ?? ''; ?></p>
+            <input id="name" name="name" type="text" required minlength="2" maxlength="70" autocomplete="name">
           </div>
 
           <div class="form-group">
             <label for="email">Email *</label>
-            <input id="email" name="email" type="email" required maxlength="120" autocomplete="email"
-                   value="<?php echo $old['email'] ?? ''; ?>">
-            <p class="field-error" data-error-for="email"><?php echo $errs['email'] ?? ''; ?></p>
+            <input id="email" name="email" type="email" required maxlength="120" autocomplete="email">
           </div>
 
           <div class="form-group">
             <label for="message">Message *</label>
-            <textarea id="message" name="message" rows="5" required minlength="10" maxlength="1500"><?php echo $old['message'] ?? ''; ?></textarea>
-            <p class="field-error" data-error-for="message"><?php echo $errs['message'] ?? ''; ?></p>
+            <textarea id="message" name="message" rows="5" required minlength="10" maxlength="1500"></textarea>
           </div>
 
           <div class="form-footer">
@@ -197,9 +197,6 @@ $errs = $_SESSION['form_errors'] ?? [];
             <small class="form-note">We never share your information.</small>
           </div>
         </form>
-        <?php
-          unset($_SESSION['form_errors'], $_SESSION['form_values']);
-        ?>
       </div>
     </section>
   </main>
