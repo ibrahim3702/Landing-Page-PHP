@@ -1,76 +1,48 @@
 <?php
-// Server-side handler for contact form (Epic 3)
-// Basic validation, sanitization, logging. Replace mail() with SMTP library if needed.
-
-session_start();
-
-// Simple CSRF check helper (NOTE: In production use a more robust token storage)
-function valid_csrf($token) {
-    return hash_equals(hash('sha256', session_id() . 'SECRET_SALT'), $token);
-}
+// Server-side handler for AJAX contact form
+header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: ./?error=1#contact');
+    echo json_encode(['ok' => false, 'error' => 'Method not allowed']);
     exit;
 }
 
-// Honeypot (spam trap)
+// Honeypot check
 if (!empty($_POST['website'])) {
-    // Bot likely
-    header('Location: ./?error=1#contact');
+    echo json_encode(['ok' => false, 'error' => 'bot']);
     exit;
 }
 
-$csrf = $_POST['csrf_token'] ?? '';
-if (!valid_csrf($csrf)) {
-    header('Location: ./?error=1#contact');
-    exit;
-}
-
+// Basic inputs
 $name    = trim($_POST['name'] ?? '');
 $email   = trim($_POST['email'] ?? '');
 $message = trim($_POST['message'] ?? '');
 
-$errors = [];
-
-// Validate
-if ($name === '' || mb_strlen($name) < 2) {
-    $errors['name'] = 'Name must be at least 2 characters.';
-}
-if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    $errors['email'] = 'Provide a valid email address.';
-}
-if ($message === '' || mb_strlen($message) < 10) {
-    $errors['message'] = 'Message must be at least 10 characters.';
-}
-
-// If errors: store in session to show inline (simpler than query strings)
-if ($errors) {
-    $_SESSION['form_errors'] = $errors;
-    $_SESSION['form_values'] = [
-        'name' => htmlspecialchars($name, ENT_QUOTES, 'UTF-8'),
-        'email' => htmlspecialchars($email, ENT_QUOTES, 'UTF-8'),
-        'message' => htmlspecialchars($message, ENT_QUOTES, 'UTF-8')
-    ];
-    header('Location: ./?error=1#contact');
+// Validation
+if ($name === '' || $email === '' || $message === '') {
+    echo json_encode(['ok' => false, 'error' => 'missing']);
     exit;
 }
 
-// Sanitize for logging (strip tags)
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    echo json_encode(['ok' => false, 'error' => 'email']);
+    exit;
+}
+
+if (mb_strlen($message) < 10) {
+    echo json_encode(['ok' => false, 'error' => 'short']);
+    exit;
+}
+
+// Sanitize and Log
 $cleanMessage = preg_replace('/<[^>]*>/', '', $message);
 $logLine = date('c') . " | {$name} <{$email}> | " . str_replace(["\r","\n"], ' ', $cleanMessage) . PHP_EOL;
 
-// Use /tmp for Vercel (serverless), or local directory
-$logFile = is_writable(__DIR__) ? __DIR__ . '/messages.log' : '/tmp/messages.log';
-
+// Vercel /tmp logging (Best effort)
 try {
-    @file_put_contents($logFile, $logLine, FILE_APPEND | LOCK_EX);
-} catch (Exception $e) {
-    // Continue even if logging fails
-}
+    @file_put_contents('/tmp/messages.log', $logLine, FILE_APPEND | LOCK_EX);
+} catch (Exception $e) { }
 
-// Clear session errors/values
-unset($_SESSION['form_errors'], $_SESSION['form_values']);
-
-header('Location: ./?success=1#contact');
+// Return JSON Success
+echo json_encode(['ok' => true]);
 exit;
