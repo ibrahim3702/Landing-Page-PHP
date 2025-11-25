@@ -10,20 +10,20 @@ function valid_csrf($token) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: /?error=1#contact');
+    header('Location: index.php?error=1#contact');
     exit;
 }
 
 // Honeypot (spam trap)
 if (!empty($_POST['website'])) {
     // Bot likely
-    header('Location: /?error=1#contact');
+    header('Location: index.php?error=1#contact');
     exit;
 }
 
 $csrf = $_POST['csrf_token'] ?? '';
 if (!valid_csrf($csrf)) {
-    header('Location: /?error=1#contact');
+    header('Location: index.php?error=1#contact');
     exit;
 }
 
@@ -52,7 +52,7 @@ if ($errors) {
         'email' => htmlspecialchars($email, ENT_QUOTES, 'UTF-8'),
         'message' => htmlspecialchars($message, ENT_QUOTES, 'UTF-8')
     ];
-    header('Location: /?error=1#contact');
+    header('Location: index.php?error=1#contact');
     exit;
 }
 
@@ -60,17 +60,17 @@ if ($errors) {
 $cleanMessage = preg_replace('/<[^>]*>/', '', $message);
 $logLine = date('c') . " | {$name} <{$email}> | " . str_replace(["\r","\n"], ' ', $cleanMessage) . PHP_EOL;
 
-$logFile = __DIR__ . '/messages.log';
+// Use /tmp for Vercel (serverless), or local directory
+$logFile = is_writable(__DIR__) ? __DIR__ . '/messages.log' : '/tmp/messages.log';
 
 try {
-    file_put_contents($logFile, $logLine, FILE_APPEND | LOCK_EX);
+    @file_put_contents($logFile, $logLine, FILE_APPEND | LOCK_EX);
 } catch (Exception $e) {
-    header('Location: /?server=1#contact');
-    exit;
+    // Continue even if logging fails
 }
 
 // Clear session errors/values
 unset($_SESSION['form_errors'], $_SESSION['form_values']);
 
-header('Location: /?success=1#contact');
+header('Location: index.php?success=1#contact');
 exit;
