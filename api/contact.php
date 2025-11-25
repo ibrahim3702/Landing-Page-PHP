@@ -10,20 +10,20 @@ function valid_csrf($token) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: index.php?error=1#contact');
+    header('Location: ./?error=1#contact');
     exit;
 }
 
 // Honeypot (spam trap)
 if (!empty($_POST['website'])) {
     // Bot likely
-    header('Location: index.php?error=1#contact');
+    header('Location: ./?error=1#contact');
     exit;
 }
 
 $csrf = $_POST['csrf_token'] ?? '';
 if (!valid_csrf($csrf)) {
-    header('Location: index.php?error=1#contact');
+    header('Location: ./?error=1#contact');
     exit;
 }
 
@@ -52,7 +52,7 @@ if ($errors) {
         'email' => htmlspecialchars($email, ENT_QUOTES, 'UTF-8'),
         'message' => htmlspecialchars($message, ENT_QUOTES, 'UTF-8')
     ];
-    header('Location: index.php?error=1#contact');
+    header('Location: ./?error=1#contact');
     exit;
 }
 
@@ -72,5 +72,5 @@ try {
 // Clear session errors/values
 unset($_SESSION['form_errors'], $_SESSION['form_values']);
 
-header('Location: index.php?success=1#contact');
+header('Location: ./?success=1#contact');
 exit;

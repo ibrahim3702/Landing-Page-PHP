@@ -157,6 +157,7 @@ $errs = $_SESSION['form_errors'] ?? [];
         <?php
           if (isset($_GET['success'])) {
             echo '<div class="alert alert-success" role="status">Message sent successfully!</div>';
+            echo '<script>setTimeout(function(){ window.history.replaceState({}, document.title, window.location.pathname + "#contact"); }, 3000);</script>';
           } elseif (isset($_GET['error'])) {
             echo '<div class="alert alert-error" role="alert">Please correct the highlighted fields.</div>';
           } elseif (isset($_GET['server'])) {
