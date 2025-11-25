@@ -164,7 +164,7 @@ $errs = $_SESSION['form_errors'] ?? [];
           }
         ?>
 
-        <form id="contactForm" class="form-card" method="POST" action="/contact" novalidate>
+        <form id="contactForm" class="form-card" method="POST" action="contact.php" novalidate>
           <input type="hidden" name="csrf_token" value="<?php echo hash('sha256', session_id() . 'SECRET_SALT'); ?>">
           <div class="hp-field">
             <label>Leave this field empty</label>
