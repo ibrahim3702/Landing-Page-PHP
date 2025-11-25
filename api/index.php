@@ -150,55 +150,42 @@ $errs = $_SESSION['form_errors'] ?? [];
 
     <!-- Contact (from Epic 3 previous addition) -->
     <section id="contact" class="contact-section" aria-labelledby="contact-heading">
-      <div class="section-inner">
-        <h2 id="contact-heading">Get in Touch</h2>
-        <p class="section-lead">We respond within 24 hours. All fields are required.</p>
+  <div class="section-inner">
+    <h2 id="contact-heading">Get in Touch</h2>
+    <p class="section-lead">We respond within 24 hours. All fields are required.</p>
 
-        <?php
-          // Stateless Success/Error Handling (Works on Vercel)
-          if (isset($_GET['success'])) {
-            echo '<div class="alert alert-success" role="status">Message sent successfully!</div>';
-            echo '<script>setTimeout(function(){ window.history.replaceState({}, document.title, window.location.pathname + "#contact"); }, 3000);</script>';
-          } elseif (isset($_GET['error'])) {
-            $errType = $_GET['error'];
-            if ($errType === 'missing') echo '<div class="alert alert-error" role="alert">Please fill in all required fields.</div>';
-            elseif ($errType === 'email') echo '<div class="alert alert-error" role="alert">Please provide a valid email address.</div>';
-            elseif ($errType === 'short') echo '<div class="alert alert-error" role="alert">Message is too short.</div>';
-            else echo '<div class="alert alert-error" role="alert">Something went wrong. Please try again.</div>';
-          }
-        ?>
+    <div id="form-message" aria-live="polite"></div>
 
-        <form id="contactForm" class="form-card" method="POST" action="/contact" novalidate>
-          
-          <input type="hidden" name="csrf_token" value="<?php echo hash('sha256', 'static_salt_for_vercel'); ?>">
-          
-          <div class="hp-field">
-            <label>Leave this field empty</label>
-            <input type="text" name="website" tabindex="-1" autocomplete="off">
-          </div>
-
-          <div class="form-group">
-            <label for="name">Name *</label>
-            <input id="name" name="name" type="text" required minlength="2" maxlength="70" autocomplete="name">
-          </div>
-
-          <div class="form-group">
-            <label for="email">Email *</label>
-            <input id="email" name="email" type="email" required maxlength="120" autocomplete="email">
-          </div>
-
-          <div class="form-group">
-            <label for="message">Message *</label>
-            <textarea id="message" name="message" rows="5" required minlength="10" maxlength="1500"></textarea>
-          </div>
-
-          <div class="form-footer">
-            <button class="btn btn-accent" type="submit">Send Message</button>
-            <small class="form-note">We never share your information.</small>
-          </div>
-        </form>
+    <form id="contactForm" class="form-card" novalidate>
+      <input type="hidden" name="csrf_token" value="<?php echo hash('sha256', 'static_salt_for_vercel'); ?>">
+      
+      <div class="hp-field">
+        <label>Leave this field empty</label>
+        <input type="text" name="website" tabindex="-1" autocomplete="off">
       </div>
-    </section>
+
+      <div class="form-group">
+        <label for="name">Name *</label>
+        <input id="name" name="name" type="text" required minlength="2" maxlength="70" autocomplete="name">
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email *</label>
+        <input id="email" name="email" type="email" required maxlength="120" autocomplete="email">
+      </div>
+
+      <div class="form-group">
+        <label for="message">Message *</label>
+        <textarea id="message" name="message" rows="5" required minlength="10" maxlength="1500"></textarea>
+      </div>
+
+      <div class="form-footer">
+        <button id="submitBtn" class="btn btn-accent" type="submit">Send Message</button>
+        <small class="form-note">We never share your information.</small>
+      </div>
+    </form>
+  </div>
+</section>
   </main>
 
   <footer id="footer" class="site-footer" role="contentinfo">
@@ -218,4 +205,56 @@ $errs = $_SESSION['form_errors'] ?? [];
   <script src="../assets/js/main.js"></script>
   <script src="../assets/js/validation.js"></script>
 </body>
+<script>
+document.getElementById('contactForm').addEventListener('submit', async function(e) {
+    e.preventDefault(); // STOP THE PAGE RELOAD/FLASH
+
+    const form = this;
+    const btn = document.getElementById('submitBtn');
+    const msgDiv = document.getElementById('form-message');
+    
+    // 1. Basic Client-side Validation
+    if (!form.checkValidity()) {
+        msgDiv.innerHTML = '<div class="alert alert-error">Please fill in all required fields correctly.</div>';
+        return;
+    }
+
+    // 2. Prepare UI
+    const originalText = btn.innerText;
+    btn.innerText = 'Sending...';
+    btn.disabled = true;
+    msgDiv.innerHTML = '';
+
+    // 3. Send Data via Fetch (AJAX)
+    try {
+        const formData = new FormData(form);
+        const response = await fetch('/contact', {
+            method: 'POST',
+            body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.ok) {
+            // Success
+            msgDiv.innerHTML = '<div class="alert alert-success">Message sent successfully!</div>';
+            form.reset();
+        } else {
+            // Handle specific errors from PHP
+            let errorText = 'Something went wrong.';
+            if (result.error === 'email') errorText = 'Please provide a valid email address.';
+            if (result.error === 'short') errorText = 'Message is too short.';
+            if (result.error === 'missing') errorText = 'All fields are required.';
+            
+            msgDiv.innerHTML = `<div class="alert alert-error">${errorText}</div>`;
+        }
+    } catch (error) {
+        msgDiv.innerHTML = '<div class="alert alert-error">Network error. Please try again.</div>';
+    } finally {
+        // Reset button
+        btn.innerText = originalText;
+        btn.disabled = false;
+    }
+});
+</script>
 </html>

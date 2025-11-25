@@ -1,19 +1,16 @@
 <?php
-// Server-side handler for contact form (Stateless for Vercel)
-
-// Redirect Helper: Uses Relative Paths to ensure correct domain/protocol
-function redirect($params) {
-    header("Location: /" . $params);
-    exit;
-}
+// Server-side handler for AJAX contact form
+header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    redirect('?error=1#contact');
+    echo json_encode(['ok' => false, 'error' => 'Method not allowed']);
+    exit;
 }
 
 // Honeypot check
 if (!empty($_POST['website'])) {
-    redirect('?error=bot#contact');
+    echo json_encode(['ok' => false, 'error' => 'bot']);
+    exit;
 }
 
 // Basic inputs
@@ -23,29 +20,29 @@ $message = trim($_POST['message'] ?? '');
 
 // Validation
 if ($name === '' || $email === '' || $message === '') {
-    redirect('?error=missing#contact');
+    echo json_encode(['ok' => false, 'error' => 'missing']);
+    exit;
 }
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    redirect('?error=email#contact');
+    echo json_encode(['ok' => false, 'error' => 'email']);
+    exit;
 }
 
 if (mb_strlen($message) < 10) {
-    redirect('?error=short#contact');
+    echo json_encode(['ok' => false, 'error' => 'short']);
+    exit;
 }
 
 // Sanitize and Log
 $cleanMessage = preg_replace('/<[^>]*>/', '', $message);
 $logLine = date('c') . " | {$name} <{$email}> | " . str_replace(["\r","\n"], ' ', $cleanMessage) . PHP_EOL;
 
-// Vercel only allows writing to /tmp
-$logFile = '/tmp/messages.log';
-
+// Vercel /tmp logging (Best effort)
 try {
-    @file_put_contents($logFile, $logLine, FILE_APPEND | LOCK_EX);
-} catch (Exception $e) {
-    // Ignore logging errors on serverless
-}
+    @file_put_contents('/tmp/messages.log', $logLine, FILE_APPEND | LOCK_EX);
+} catch (Exception $e) { }
 
-// Success Redirect
-redirect('?success=1#contact');
+// Return JSON Success
+echo json_encode(['ok' => true]);
+exit;
