@@ -1,44 +1,56 @@
-/* Rebrand: NebulaLaunch color system + additions */
-/* NOTE: Merge into existing file (replace prior tokens where sensible) */
+/* Rebrand: NebulaLaunch - Cosy Dark Theme */
 :root {
-    /* Primary cosmic palette */
-    --clr-primary: #5d2ee6;
-    /* Deep violet */
-    --clr-primary-600: #4a23bd;
-    --clr-primary-100: #efe9ff;
+    /* --- The CosyPOS Palette --- */
 
-    /* Accent (neon coral) */
-    --clr-accent: #ff5b4d;
-    --clr-accent-600: #e84a3d;
-    --clr-accent-100: #ffe0db;
+    /* Backgrounds */
+    --clr-bg-main: #111111;
+    /* Deepest black/gray */
+    --clr-bg-surface: #1C1C1E;
+    /* Secondary surface (Sidebar/Card) */
+    --clr-bg-input: #2C2C2E;
+    /* Search bars/Inputs */
 
-    /* Supporting / neutrals */
-    --clr-neutral-50: #f6f7f9;
-    --clr-neutral-100: #eceef1;
-    --clr-neutral-200: #d8dbe0;
-    --clr-neutral-700: #4a4f57;
-    --clr-neutral-900: #1f2226;
+    /* Text */
+    --clr-text-main: #FFFFFF;
+    --clr-text-muted: #9A9A9E;
+    --clr-text-on-pastel: #1c1c1e;
+    /* Dark text for pastel cards */
 
-    /* Success / error */
-    --clr-success: #198754;
-    --clr-error: #dc3545;
-    --clr-focus-ring: rgba(93, 46, 230, .30);
+    /* Pastels (From Image) */
+    --clr-pastel-mint: #D4EADD;
+    /* Breakfast/Greenish */
+    --clr-pastel-lilac: #E3D4F0;
+    /* Sushi/Purpleish */
+    --clr-pastel-pink: #FADADD;
+    /* Main Course/Pink */
+    --clr-pastel-blue: #D0E6F8;
+    /* Pasta/Blue */
+    --clr-pastel-cream: #F5E6C8;
+    /* Desserts/Cream */
 
-    /* Hero gradient */
-    --gradient-hero: linear-gradient(135deg, #5d2ee6 0%, #00c6b8 70%);
+    /* Accents */
+    --clr-accent: #FFFFFF;
+    /* Primary Action (White) */
+    --clr-accent-hover: #E5E5E5;
+    --clr-border: #2C2C2E;
+    --clr-focus-ring: rgba(255, 255, 255, 0.3);
+
+    /* Functional Colors */
+    --clr-success: #8FD19E;
+    --clr-error: #FF6B6B;
 
     /* Typography */
-    --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Ubuntu, sans-serif;
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
     --font-display: 'Plus Jakarta Sans', var(--font-sans);
 
     --fs-xs: 0.75rem;
     --fs-sm: 0.875rem;
     --fs-base: 1rem;
     --fs-md: 1.125rem;
-    --fs-lg: 1.5rem;
-    --fs-xl: clamp(2.15rem, 6vw, 3.15rem);
+    --fs-lg: 1.75rem;
+    --fs-xl: clamp(2.5rem, 5vw, 4rem);
 
-    /* Spacing Scale */
+    /* Spacing */
     --space-1: 0.25rem;
     --space-2: 0.5rem;
     --space-3: 0.75rem;
@@ -46,135 +58,89 @@
     --space-5: 1.25rem;
     --space-6: 1.5rem;
     --space-8: 2rem;
-    --space-10: 2.5rem;
     --space-12: 3rem;
     --space-16: 4rem;
 
-    /* Radius & Shadows */
-    --radius-sm: 4px;
-    --radius-md: 10px;
+    /* UI Shape */
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    /* Increased for Cosy look */
+    --radius-lg: 24px;
     --radius-pill: 999px;
-    --shadow-sm: 0 2px 4px rgba(0, 0, 0, .09);
-    --shadow-md: 0 10px 18px rgba(0, 0, 0, .14);
 
-    /* Transitions */
-    --trans-fast: 150ms ease;
-    --trans-med: 250ms ease;
+    --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.3);
+    --shadow-glow: 0 0 20px rgba(255, 255, 255, 0.05);
 
-    --max-width: 1120px;
+    --trans-fast: 200ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    --max-width: 1200px;
 }
 
 body {
     font-family: var(--font-sans);
     font-size: var(--fs-base);
-    color: var(--clr-neutral-900);
-    background: #ffffff;
+    color: var(--clr-text-main);
+    background: var(--clr-bg-main);
     -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
 }
 
-.h1,
-h1 {
-    font-family: var(--font-display);
-    font-size: var(--fs-xl);
-    font-weight: 700;
-    letter-spacing: -0.5px;
-}
-
-.h2,
-h2 {
-    font-family: var(--font-display);
-    font-size: var(--fs-lg);
-    font-weight: 700;
-}
-
-.h3,
+h1,
+h2,
 h3 {
-    font-size: 1.25rem;
-    font-weight: 600;
+    font-family: var(--font-display);
+    color: var(--clr-text-main);
+    line-height: 1.2;
 }
 
-.lead {
-    font-size: var(--fs-md);
-    line-height: 1.5;
-}
-
-.text-muted {
-    color: var(--clr-neutral-700);
-}
-
-.text-accent {
-    color: var(--clr-accent);
-}
-
-.text-inverse {
-    color: #fff;
-}
-
-.btn {
-    --btn-bg: var(--clr-accent);
-    --btn-bg-hover: var(--clr-accent-600);
-    --btn-color: #fff;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-2);
-    font-weight: 600;
-    font-size: var(--fs-base);
-    padding: .85rem 1.4rem;
-    border: none;
-    border-radius: var(--radius-md);
-    background: var(--btn-bg);
-    color: var(--btn-color);
-    cursor: pointer;
-    text-decoration: none;
-    box-shadow: var(--shadow-sm);
-    transition: background var(--trans-fast), transform var(--trans-fast), box-shadow var(--trans-fast);
-}
-
-.btn:hover,
-.btn:focus {
-    background: var(--btn-bg-hover);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-}
-
-.btn:active {
-    transform: translateY(0);
-    box-shadow: var(--shadow-sm);
-}
-
-.btn-accent {
-    --btn-bg: var(--clr-accent);
-    --btn-bg-hover: var(--clr-accent-600);
-}
-
-.btn-outline {
-    --btn-bg: transparent;
-    --btn-bg-hover: var(--clr-accent-100);
-    border: 1px solid var(--clr-accent);
-    color: var(--clr-accent);
-    box-shadow: none;
-}
-
-.btn-pill {
-    border-radius: var(--radius-pill);
-}
-
-body.user-tabbing a:focus,
-body.user-tabbing button:focus,
-body.user-tabbing .btn:focus {
-    outline: 3px solid var(--clr-focus-ring);
-    outline-offset: 2px;
+p {
+    color: var(--clr-text-muted);
 }
 
 a {
-    color: var(--clr-primary);
-    transition: color var(--trans-fast), background var(--trans-fast);
+    color: var(--clr-text-main);
+    text-decoration: none;
 }
 
-a:hover,
-a:focus {
-    color: var(--clr-primary-600);
+/* Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.8em 1.5em;
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    /* Match UI rounds */
+    border: none;
+    cursor: pointer;
+    transition: var(--trans-fast);
+    text-decoration: none;
+    font-size: var(--fs-sm);
+}
+
+.btn-accent {
+    background: var(--clr-accent);
+    color: var(--clr-bg-main);
+}
+
+.btn-accent:hover {
+    background: var(--clr-accent-hover);
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--clr-border);
+    color: var(--clr-text-main);
+}
+
+.btn-outline:hover {
+    background: var(--clr-bg-surface);
+    border-color: var(--clr-text-muted);
+}
+
+.section-title {
+    font-size: var(--fs-lg);
+    margin-bottom: var(--space-2);
 }
 
 .container {
@@ -183,8 +149,64 @@ a:focus {
     padding: 0 var(--space-4);
 }
 
-.section-title {
-    font-family: var(--font-display);
-    font-weight: 700;
-    letter-spacing: -0.5px;
+/* branding.css - Visual Polish Update */
+:root {
+    /* --- The CosyPOS Palette --- */
+    --clr-bg-main: #0F0F11;
+    /* Slightly deeper black */
+    --clr-bg-surface: #18181B;
+    --clr-bg-surface-hover: #222226;
+    --clr-bg-input: #27272A;
+
+    /* Text */
+    --clr-text-main: #FFFFFF;
+    --clr-text-muted: #A1A1AA;
+    --clr-text-on-pastel: #1c1c1e;
+
+    /* Pastels & Glows */
+    --clr-pastel-mint: #D4EADD;
+    --glow-mint: rgba(212, 234, 221, 0.4);
+
+    --clr-pastel-lilac: #E3D4F0;
+    --glow-lilac: rgba(227, 212, 240, 0.4);
+
+    --clr-pastel-pink: #FADADD;
+    --glow-pink: rgba(250, 218, 221, 0.4);
+
+    --clr-pastel-blue: #D0E6F8;
+    --glow-blue: rgba(208, 230, 248, 0.4);
+
+    /* Accents */
+    --clr-accent: #FFFFFF;
+    --clr-accent-hover: #E5E5E5;
+    --clr-border: #27272A;
+
+    /* Typography */
+    --font-sans: 'Inter', system-ui, sans-serif;
+    --font-display: 'Plus Jakarta Sans', var(--font-sans);
+
+    /* Spacing & Shapes */
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --radius-xl: 32px;
+
+    /* Animation Easing */
+    --ease-elastic: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --trans-smooth: 400ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+body {
+    background: var(--clr-bg-main);
+    color: var(--clr-text-main);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    /* Prevent horizontal scroll from animations */
+}
+
+/* Text Gradients */
+.text-gradient {
+    background: linear-gradient(135deg, #fff 0%, #a5a5a5 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }

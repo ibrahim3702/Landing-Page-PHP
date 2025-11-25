@@ -1,118 +1,101 @@
-/* Epic 3: Contact Form & Validation */
+/* Dark Mode Form Styles */
+
 .contact-section {
-    padding: var(--space-12) var(--space-4) var(--space-12);
-    background: #fff;
+    padding: var(--space-12) var(--space-4);
 }
 
 .form-card {
-    background: var(--clr-neutral-50);
-    border: 1px solid var(--clr-neutral-200);
-    padding: var(--space-6) var(--space-6) var(--space-8);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-sm);
-    max-width: 640px;
+    background: var(--clr-bg-surface);
+    padding: var(--space-8);
+    border-radius: var(--radius-lg);
+    max-width: 600px;
     margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-5);
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: .4rem;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
 }
 
 .form-group label {
+    font-size: var(--fs-sm);
     font-weight: 500;
-    font-size: .95rem;
+    color: var(--clr-text-muted);
+    margin-left: 4px;
 }
 
 .form-group input,
 .form-group textarea {
-    padding: .75rem .85rem;
-    border: 1px solid var(--clr-neutral-200);
-    border-radius: var(--radius-sm);
-    font: inherit;
-    background: #fff;
-    resize: vertical;
-    transition: border-color var(--trans-fast), box-shadow var(--trans-fast);
+    background: var(--clr-bg-input);
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    /* Match search bar in image */
+    padding: 1rem;
+    color: var(--clr-text-main);
+    font-family: inherit;
+    font-size: var(--fs-base);
+    transition: all var(--trans-fast);
 }
 
 .form-group input:focus,
 .form-group textarea:focus {
     outline: none;
-    border-color: var(--clr-primary);
-    box-shadow: 0 0 0 3px rgba(13, 110, 253, .20);
-}
-
-.field-error {
-    min-height: 16px;
-    font-size: .75rem;
-    color: #b11;
-    margin: 0;
-}
-
-.alert {
-    max-width: 640px;
-    margin: 0 auto var(--space-6);
-    padding: .85rem 1rem;
-    border-radius: var(--radius-sm);
-    font-size: .9rem;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: .5rem;
-    line-height: 1.3;
-}
-
-.alert-success {
-    background: #e8f8ed;
-    color: #0f5132;
-    border: 1px solid #badbcc;
-}
-
-.alert-error {
-    background: #fdecea;
-    color: #842029;
-    border: 1px solid #f5c2c7;
+    border-color: var(--clr-text-muted);
+    background: #3a3a3c;
 }
 
 .form-footer {
-    display: flex;
-    flex-direction: column;
-    gap: .5rem;
-    align-items: flex-start;
+    margin-top: var(--space-4);
 }
 
 .form-note {
-    font-size: .7rem;
-    color: var(--clr-neutral-700);
+    display: block;
+    margin-top: var(--space-2);
+    color: var(--clr-text-muted);
+    font-size: var(--fs-xs);
 }
 
-.hp-field {
-    position: absolute;
-    left: -9999px;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-}
-
+/* Validation States */
 input.error,
 textarea.error {
-    border-color: #d42;
-    box-shadow: 0 0 0 2px rgba(220, 68, 34, .2);
+    border-color: var(--clr-error);
+    background: rgba(255, 107, 107, 0.1);
 }
 
 input.valid,
 textarea.valid {
-    border-color: #198754;
-    box-shadow: 0 0 0 2px rgba(25, 135, 84, .25);
+    border-color: var(--clr-success);
 }
 
-/* Responsive */
-@media (max-width: 700px) {
-    .form-card {
-        padding: var(--space-5) var(--space-5) var(--space-6);
-    }
+.field-error {
+    color: var(--clr-error);
+    font-size: var(--fs-xs);
+    min-height: 1.2em;
+    margin-left: 4px;
+}
+
+/* Alerts */
+.alert {
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--space-4);
+    font-size: var(--fs-sm);
+}
+
+.alert-success {
+    background: rgba(143, 209, 158, 0.2);
+    color: var(--clr-success);
+    border: 1px solid var(--clr-success);
+}
+
+.alert-error {
+    background: rgba(255, 107, 107, 0.2);
+    color: var(--clr-error);
+    border: 1px solid var(--clr-error);
+}
+
+.hp-field {
+    display: none;
 }
