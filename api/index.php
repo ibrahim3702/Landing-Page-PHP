@@ -65,21 +65,21 @@ $errs = $_SESSION['form_errors'] ?? [];
         <div class="feature-grid">
           <article class="feature-card" aria-labelledby="feat-ai-title">
             <div class="feature-card__icon" aria-hidden="true">
-              <?php include __DIR__ . '/assets/img/icon-ai.svg'; ?>
+              <?php include __DIR__ . '/../assets/img/icon-ai.svg'; ?>
             </div>
             <h3 id="feat-ai-title" class="feature-card__title">Adaptive AI Optimization</h3>
             <p class="feature-card__body">Dynamic tuning reduces load times and improves engagement patterns automatically.</p>
           </article>
           <article class="feature-card" aria-labelledby="feat-edge-title">
             <div class="feature-card__icon" aria-hidden="true">
-              <?php include __DIR__ . '/assets/img/icon-edge.svg'; ?>
+              <?php include __DIR__ . '/../assets/img/icon-edge.svg'; ?>
             </div>
             <h3 id="feat-edge-title" class="feature-card__title">Edge-Speed Delivery</h3>
             <p class="feature-card__body">Globally distributed push ensures consistent sub-second responses across continents.</p>
           </article>
           <article class="feature-card" aria-labelledby="feat-privacy-title">
             <div class="feature-card__icon" aria-hidden="true">
-              <?php include __DIR__ . '/assets/img/icon-privacy.svg'; ?>
+              <?php include __DIR__ . '/../assets/img/icon-privacy.svg'; ?>
             </div>
             <h3 id="feat-privacy-title" class="feature-card__title">Privacy-First Analytics</h3>
             <p class="feature-card__body">Actionable metrics without invasive tracking—respect users while learning fast.</p>
