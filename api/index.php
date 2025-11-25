@@ -15,10 +15,10 @@ $errs = $_SESSION['form_errors'] ?? [];
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <!-- Fonts: Inter + Plus Jakarta Sans for headings -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/reset.css" />
-  <link rel="stylesheet" href="assets/css/branding.css" />
-  <link rel="stylesheet" href="assets/css/base.css" />
-  <link rel="stylesheet" href="assets/css/form.css" />
+  <link rel="stylesheet" href="/api/assets/css/reset.css" />
+  <link rel="stylesheet" href="/api/assets/css/branding.css" />
+  <link rel="stylesheet" href="/api/assets/css/base.css" />
+  <link rel="stylesheet" href="/api/assets/css/form.css" />
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to main content</a>
@@ -164,7 +164,7 @@ $errs = $_SESSION['form_errors'] ?? [];
           }
         ?>
 
-        <form id="contactForm" class="form-card" method="POST" action="contact.php" novalidate>
+        <form id="contactForm" class="form-card" method="POST" action="/contact" novalidate>
           <input type="hidden" name="csrf_token" value="<?php echo hash('sha256', session_id() . 'SECRET_SALT'); ?>">
           <div class="hp-field">
             <label>Leave this field empty</label>
@@ -217,7 +217,7 @@ $errs = $_SESSION['form_errors'] ?? [];
     </div>
   </footer>
 
-  <script src="assets/js/main.js"></script>
-  <script src="assets/js/validation.js"></script>
+  <script src="/api/assets/js/main.js"></script>
+  <script src="/api/assets/js/validation.js"></script>
 </body>
 </html>
