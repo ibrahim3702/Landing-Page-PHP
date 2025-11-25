@@ -15,10 +15,10 @@ $errs = $_SESSION['form_errors'] ?? [];
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <!-- Fonts: Inter + Plus Jakarta Sans for headings -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/reset.css" />
-  <link rel="stylesheet" href="/assets/css/branding.css" />
-  <link rel="stylesheet" href="/assets/css/base.css" />
-  <link rel="stylesheet" href="/assets/css/form.css" />
+  <link rel="stylesheet" href="../assets/css/reset.css" />
+  <link rel="stylesheet" href="../assets/css/branding.css" />
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/form.css" />
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to main content</a>
@@ -217,7 +217,7 @@ $errs = $_SESSION['form_errors'] ?? [];
     </div>
   </footer>
 
-  <script src="/assets/js/main.js"></script>
-  <script src="/assets/js/validation.js"></script>
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/validation.js"></script>
 </body>
 </html>
