@@ -10,6 +10,18 @@
             "dest": "/assets/$1"
         },
         {
+            "src": "/about",
+            "dest": "/api/about.php"
+        },
+        {
+            "src": "/projects",
+            "dest": "/api/projects.php"
+        },
+        {
+            "src": "/resources",
+            "dest": "/api/resources.php"
+        },
+        {
             "src": "/contact",
             "dest": "/api/contact.php"
         },
